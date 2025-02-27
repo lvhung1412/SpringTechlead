@@ -1,6 +1,6 @@
 package com.example.springBootTechlead.controller.core2;
 
-import com.example.springBootTechlead.model.dto.DTOCore2BT5;
+import com.example.springBootTechlead.model.dto.core.DTOCore2BT5;
 import com.example.springBootTechlead.service.core2.BT5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

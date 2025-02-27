@@ -1,6 +1,6 @@
 package com.example.springBootTechlead.controller.core1;
 
-import com.example.springBootTechlead.model.dto.DTOLevel2Ex3;
+import com.example.springBootTechlead.model.dto.core.DTOLevel2Ex3;
 import com.example.springBootTechlead.service.core1.Level2Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

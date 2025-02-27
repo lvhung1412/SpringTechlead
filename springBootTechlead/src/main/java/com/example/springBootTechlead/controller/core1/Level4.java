@@ -1,15 +1,13 @@
 package com.example.springBootTechlead.controller.core1;
 
-import com.example.springBootTechlead.model.dto.DTOLevel4Ex10;
-import com.example.springBootTechlead.model.dto.DTOLevel4Ex2;
+import com.example.springBootTechlead.model.dto.core.DTOLevel4Ex10;
+import com.example.springBootTechlead.model.dto.core.DTOLevel4Ex2;
 import com.example.springBootTechlead.service.core1.Level4Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/core1/level4")

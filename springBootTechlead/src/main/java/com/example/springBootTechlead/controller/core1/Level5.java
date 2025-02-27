@@ -1,9 +1,9 @@
 package com.example.springBootTechlead.controller.core1;
 
-import com.example.springBootTechlead.model.dto.DTOLevel5Ex2;
-import com.example.springBootTechlead.model.dto.DTOLevel5Ex5;
-import com.example.springBootTechlead.model.dto.DTOLevel5Ex7;
-import com.example.springBootTechlead.model.dto.DTOLevel5Ex8;
+import com.example.springBootTechlead.model.dto.core.DTOLevel5Ex2;
+import com.example.springBootTechlead.model.dto.core.DTOLevel5Ex5;
+import com.example.springBootTechlead.model.dto.core.DTOLevel5Ex7;
+import com.example.springBootTechlead.model.dto.core.DTOLevel5Ex8;
 import com.example.springBootTechlead.service.core1.Level5Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
