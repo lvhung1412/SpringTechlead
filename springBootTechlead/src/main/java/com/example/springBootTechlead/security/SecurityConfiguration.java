@@ -2,6 +2,7 @@ package com.example.springBootTechlead.security;
 
 
 import com.example.springBootTechlead.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
     private final JwtFilter jwtAuthenticationFilter;
 
+    @Autowired
     public SecurityConfiguration(JwtFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
@@ -37,10 +39,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, Endpoints.PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.POST,Endpoints.PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.GET,Endpoints.USER_ENDPOINTS).hasAuthority("USER")
-                        .requestMatchers(HttpMethod.POST,Endpoints.USER_ENDPOINTS).hasAuthority("USER")
-                        .requestMatchers(HttpMethod.GET,Endpoints.ADMIN_ENDPOINTS).hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.POST,Endpoints.ADMIN_ENDPOINTS).hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET,Endpoints.USER_ENDPOINTS).hasRole("USER")
+                        .requestMatchers(HttpMethod.POST,Endpoints.USER_ENDPOINTS).hasRole("USER")
+                        .requestMatchers(HttpMethod.GET,Endpoints.ADMIN_ENDPOINTS).hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,Endpoints.ADMIN_ENDPOINTS).hasRole("ADMIN")
                         .anyRequest())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .logout(LogoutConfigurer::permitAll)
