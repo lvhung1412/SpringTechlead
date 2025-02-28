@@ -2,8 +2,8 @@ package com.example.springBootTechlead.security;
 
 public class Endpoints {
     public static final String[] PUBLIC_ENDPOINTS={
-            "/account/register",
-            "/account/login"
+            "/user/register",
+            "/user/login"
     };
 
     public static final String[] USER_ENDPOINTS = {

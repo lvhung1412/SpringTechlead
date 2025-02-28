@@ -20,8 +20,6 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
-    private final String secretKey = "1234567890dhhsdhsdsdjkdsjsdyhdsdisjsdjd747dhhdgshs";
-
     public JwtFilter(
         JwtService jwtService, UserDetailsService userDetailsService
     ) throws ServletException, IOException {

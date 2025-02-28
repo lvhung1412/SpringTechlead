@@ -8,7 +8,6 @@ import com.example.springBootTechlead.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -29,17 +28,6 @@ public class UserService {
         this.authenticationManager = authenticationManager;
         this.roleRepository = roleRepository;
         this.jwtService = jwtService;
-    }
-
-
-    public ResponseEntity<Object> profile(Authentication auth){
-        var response = new HashMap<String, Object>();
-        response.put("Username",auth.getName());
-        response.put("Authentication",auth.getAuthorities());
-
-        var user = userRepository.findByUsername(auth.getName());
-        response.put("User",user);
-        return ResponseEntity.ok(response);
     }
 
     public ResponseEntity<Object> login(LoginDto loginDto, BindingResult result){
@@ -84,7 +72,6 @@ public class UserService {
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
                 "A-Z]{2,7}$";
-
         Pattern pat = Pattern.compile(emailRegex);
         if (email == null)
             return false;
