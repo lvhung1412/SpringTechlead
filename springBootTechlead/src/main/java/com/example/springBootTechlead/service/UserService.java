@@ -18,13 +18,13 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 
 @Service
-public class AccountService {
+public class UserService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;
     private final JwtService jwtService;
 
-    public AccountService(UserRepository userRepository, AuthenticationManager authenticationManager, RoleRepository roleRepository, JwtService jwtService) {
+    public UserService(UserRepository userRepository, AuthenticationManager authenticationManager, RoleRepository roleRepository, JwtService jwtService) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.roleRepository = roleRepository;
@@ -109,19 +109,11 @@ public class AccountService {
             return ResponseEntity.badRequest().body(errorMap);
         }
 
-//        if(!isValid(userDto.getEmail())){
-//            var errorMap = new HashMap<String, String>();
-//            errorMap.put("Error","Email is not valid!");
-//            return ResponseEntity.badRequest().body(errorMap);
-//        }
 
         BCryptPasswordEncoder bCryptEncoder = new BCryptPasswordEncoder();
-//        Role role = roleRepository.findById(userDto.getRoleId()).orElse(null);
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setPassword(bCryptEncoder.encode(userDto.getPassword()));
-//        user.setEmail(userDto.getEmail());
-//        System.out.println(roleRepository.findRoleById(1).getName()+"1);
         user.setRole(roleRepository.findRoleById(1));
 
         User userCheck = userRepository.findByUsername(userDto.getUsername());

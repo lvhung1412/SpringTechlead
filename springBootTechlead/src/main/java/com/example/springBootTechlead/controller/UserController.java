@@ -2,28 +2,27 @@ package com.example.springBootTechlead.controller;
 
 
 import com.example.springBootTechlead.model.dto.LoginDto;
-import com.example.springBootTechlead.service.AccountService;
+import com.example.springBootTechlead.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/account")
-public class AccountController {
+public class UserController {
     @Autowired
-    AccountService accountService;
+    UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@Validated @RequestBody LoginDto userDto, BindingResult result){
-        return accountService.register(userDto, result);
+    public ResponseEntity<Object> register(@Validated @RequestBody LoginDto user, BindingResult result){
+        return userService.register(user, result);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@Validated @RequestBody LoginDto loginDto, BindingResult result){
-        return accountService.login(loginDto,result);
+    public ResponseEntity<Object> login(@Validated @RequestBody LoginDto user, BindingResult result){
+        return userService.login(user,result);
     }
 
 }

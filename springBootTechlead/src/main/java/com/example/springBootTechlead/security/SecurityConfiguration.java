@@ -4,6 +4,7 @@ package com.example.springBootTechlead.security;
 import com.example.springBootTechlead.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -18,11 +19,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
-public class SecurityConfig {
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+public class SecurityConfiguration {
+    private final JwtFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfiguration(JwtFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
@@ -35,11 +35,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/account/forgot-password").permitAll()
-                        .requestMatchers("/account/register").permitAll()
-                        .requestMatchers("/account/login").permitAll()
-                        .requestMatchers("/error").permitAll()
+                        .requestMatchers(HttpMethod.GET, Endpoints.PUBLIC_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.POST,Endpoints.PUBLIC_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET,Endpoints.USER_ENDPOINTS).hasAuthority("USER")
+                        .requestMatchers(HttpMethod.POST,Endpoints.USER_ENDPOINTS).hasAuthority("USER")
+                        .requestMatchers(HttpMethod.GET,Endpoints.ADMIN_ENDPOINTS).hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST,Endpoints.ADMIN_ENDPOINTS).hasAuthority("ADMIN")
                         .anyRequest())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .logout(LogoutConfigurer::permitAll)
