@@ -1,6 +1,7 @@
 package com.example.springBootTechlead.security;
 
 
+import com.example.springBootTechlead.model.entity.enumData.RoleType;
 import com.example.springBootTechlead.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -36,11 +37,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST,Endpoints.PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.GET,Endpoints.USER_ENDPOINTS).hasRole("USER")
-                        .requestMatchers(HttpMethod.POST,Endpoints.USER_ENDPOINTS).hasRole("USER")
-                        .requestMatchers(HttpMethod.GET,Endpoints.ADMIN_ENDPOINTS).hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST,Endpoints.ADMIN_ENDPOINTS).hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,Endpoints.PUBLIC_POST_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET,Endpoints.USER_GET_ENDPOINTS).hasRole(RoleType.USER.toString())
+                        .requestMatchers(HttpMethod.POST,Endpoints.USER_POST_ENDPOINTS).hasRole(RoleType.USER.toString())
+                        .requestMatchers(HttpMethod.GET,Endpoints.ADMIN_GET_ENDPOINTS).hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,Endpoints.ADMIN_PUT_ENDPOINTS).hasRole("ADMIN")
                         .anyRequest())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .logout(LogoutConfigurer::permitAll)

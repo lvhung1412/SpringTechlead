@@ -24,6 +24,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         Role userRole = roleRepository.findRoleById(appUser.getRole().getId());
         return User.withUsername(appUser.getUsername())
                 .password(appUser.getPassword())
-                .roles(userRole.getName()).build();
+                .roles(userRole.getName().toString()).build();
     }
 }

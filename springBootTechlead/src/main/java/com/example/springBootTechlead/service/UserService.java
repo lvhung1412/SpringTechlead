@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -38,7 +39,7 @@ public class UserService {
                 var error = (FieldError) errorList.get(i);
                 errorMap.put(error.getField(), error.getDefaultMessage());
             }
-            return ResponseEntity.badRequest().body(errorMap);
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMap);
         }
         User user = userRepository.findByUsername(loginDto.getUsername());
         if (user == null) {
@@ -65,34 +66,42 @@ public class UserService {
                 var error = (FieldError) errorList.get(i);
                 errorMap.put(error.getField(), error.getDefaultMessage());
             }
-            return ResponseEntity.badRequest().body(errorMap);
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMap);
         }
 
         if(userDto.getUsername().contains(" ") || userDto.getPassword().contains(" ")){
             var errorMap = new HashMap<String, String>();
             errorMap.put("Error","Username/Password is not valid!");
-            return ResponseEntity.badRequest().body(errorMap);
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(Map.of("error", "Username or Password must not contain spaces."));
         }
 
-        BCryptPasswordEncoder bCryptEncoder = new BCryptPasswordEncoder();
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setPassword(bCryptEncoder.encode(userDto.getPassword()));
-        user.setRole(roleRepository.findRoleById(1));
+        try{
+            BCryptPasswordEncoder bCryptEncoder = new BCryptPasswordEncoder();
+            User user = new User();
+            user.setUsername(userDto.getUsername());
+            user.setPassword(bCryptEncoder.encode(userDto.getPassword()));
+            user.setRole(roleRepository.findRoleById(1));
 
-        User userCheck = userRepository.findByUsername(userDto.getUsername());
-        if(userCheck != null){
-            return ResponseEntity.badRequest().body("Username already used!");
+            User userCheck = userRepository.findByUsername(userDto.getUsername());
+            if(userCheck != null){
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body(Map.of("error", "Username is already in use."));
+            }
+            userRepository.save(user);
+
+            String jwtToken = jwtService.generateToken(user);
+
+            var response = new HashMap<String, Object>();
+            response.put("token", jwtToken);
+            response.put("user", user.getUsername());
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            // Xử lý lỗi bất ngờ
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "An unexpected error occurred."));
         }
-        userRepository.save(user);
 
-        String jwtToken = jwtService.generateToken(user);
-
-        var response = new HashMap<String, Object>();
-        response.put("token", jwtToken);
-        response.put("user", user.getUsername());
-
-        return ResponseEntity.ok(response);
     }
 
 }

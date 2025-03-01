@@ -1,5 +1,8 @@
 package com.example.springBootTechlead.model.entity;
 
+import com.example.springBootTechlead.model.entity.enumData.FilmRatingConverter;
+import com.example.springBootTechlead.model.entity.enumData.RoleType;
+import com.example.springBootTechlead.model.entity.enumData.RoleTypeConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +23,8 @@ public class Role {
     @Column(name = "id")
     private Integer id;
 
-    private String name;
+    @Convert(converter = RoleTypeConverter.class)
+    private RoleType name;
 
     @OneToMany(mappedBy = "role")
     private Set<User> users;
