@@ -32,6 +32,9 @@ public class Endpoints {
             "/sql2/**",
             "/sql3/**"
     };
+    public static final String[] ADMIN_POST_ENDPOINTS = {
+            "/user/register-by-admin",
+    };
     public static final String[] ADMIN_PUT_ENDPOINTS = {
             "/sql4/**"
     };

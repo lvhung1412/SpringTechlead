@@ -10,4 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Query(value = "select * from role where id = :id", nativeQuery = true)
     Role findRoleById(@RequestParam Integer id);
+    @Query(value = "select * from role where name = :name", nativeQuery = true)
+    Role findRoleByName(String name);
 }

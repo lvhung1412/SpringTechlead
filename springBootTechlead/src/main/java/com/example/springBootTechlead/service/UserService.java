@@ -61,7 +61,7 @@ public class UserService {
 
     }
 
-    public ResponseEntity<Object> register(LoginDto userDto, BindingResult result){
+    public ResponseEntity<Object> register(LoginDto userDto, BindingResult result, String role){
         if(result.hasErrors()){
             var errorList = result.getAllErrors();
             var errorMap = new HashMap<String, String>();
@@ -83,7 +83,13 @@ public class UserService {
             User user = new User();
             user.setUsername(userDto.getUsername());
             user.setPassword(bCryptEncoder.encode(userDto.getPassword()));
-            user.setRole(roleRepository.findRoleById(1));
+            if(roleRepository.findRoleByName(role) == null){
+                return ResponseEntity.status(401).body("Role not found");
+            }
+
+            user.setRole(roleRepository.findRoleByName(role));
+            // System.out.println(roleRepository.findRoleByName(role));
+            //user.setRole(roleRepository.findRoleById(1));
 
             User userCheck = userRepository.findByUsername(userDto.getUsername());
             if(userCheck != null){
