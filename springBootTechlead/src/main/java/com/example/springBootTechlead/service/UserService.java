@@ -31,48 +31,30 @@ public class UserService {
     }
 
     public ResponseEntity<Object> login(LoginDto loginDto, BindingResult result){
-//        if(result.hasErrors()){
-//            var errorList = result.getAllErrors();
-//            var errorMap = new HashMap<String, String>();
-//            for(int i = 0;i < errorList.size();i++){
-//                var error = (FieldError) errorList.get(i);
-//                errorMap.put(error.getField(), error.getDefaultMessage());
-//            }
-//            return ResponseEntity.badRequest().body(errorMap);
-//        }
-        try{
-            User user = userRepository.findByUsername(loginDto.getUsername());
-//            if (user == null) {
-//                return ResponseEntity.status(401).body("Wrong username or password");
-//            }
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginDto.getUsername(),loginDto.getPassword()
-                    )
-            );
-            System.out.println("null");
-            String jwtToken = jwtService.generateToken(user);
-            var response = new HashMap<String, Object>();
-            response.put("token", jwtToken);
-            response.put("user", user.getUsername());
-            return ResponseEntity.ok(response);
-
-        }catch (BadCredentialsException e) {
-            return ResponseEntity.status(401).body("Wrong username or password!");
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(404).body("User not found!");
-        } catch (LockedException e) {
-            return ResponseEntity.status(423).body("User account is locked!");
-        } catch (DisabledException e) {
-            return ResponseEntity.status(403).body("User is disabled!");
-        } catch (AccountExpiredException e) {
-            return ResponseEntity.status(403).body("User account has expired!");
-        } catch (CredentialsExpiredException e) {
-            return ResponseEntity.status(403).body("User credentials have expired!");
+        if(result.hasErrors()){
+            var errorList = result.getAllErrors();
+            var errorMap = new HashMap<String, String>();
+            for(int i = 0;i < errorList.size();i++){
+                var error = (FieldError) errorList.get(i);
+                errorMap.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errorMap);
         }
-//        catch (Exception e) {
-//            return ResponseEntity.status(500).body("Internal server error!");
-//        }
+        User user = userRepository.findByUsername(loginDto.getUsername());
+        if (user == null) {
+            return ResponseEntity.status(401).body("Wrong username or password");
+        }
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDto.getUsername(),loginDto.getPassword()
+                )
+        );
+        String jwtToken = jwtService.generateToken(user);
+        var response = new HashMap<String, Object>();
+        response.put("token", jwtToken);
+        response.put("user", user.getUsername());
+        return ResponseEntity.ok(response);
+
     }
 
     public ResponseEntity<Object> register(LoginDto userDto, BindingResult result){
@@ -91,7 +73,6 @@ public class UserService {
             errorMap.put("Error","Username/Password is not valid!");
             return ResponseEntity.badRequest().body(errorMap);
         }
-
 
         BCryptPasswordEncoder bCryptEncoder = new BCryptPasswordEncoder();
         User user = new User();
