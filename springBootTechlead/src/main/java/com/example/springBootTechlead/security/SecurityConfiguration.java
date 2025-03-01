@@ -1,7 +1,6 @@
 package com.example.springBootTechlead.security;
 
 
-import com.example.springBootTechlead.model.entity.enumData.RoleType;
 import com.example.springBootTechlead.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
