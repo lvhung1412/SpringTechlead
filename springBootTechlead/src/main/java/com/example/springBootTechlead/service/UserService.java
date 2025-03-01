@@ -14,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import java.util.HashMap;
-import java.util.regex.Pattern;
 
 @Service
 public class UserService {
@@ -66,29 +65,7 @@ public class UserService {
         return ResponseEntity.badRequest().body("Wrong username or password!");
     }
 
-    private boolean isValid(String email)
-    {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
-        Pattern pat = Pattern.compile(emailRegex);
-        if (email == null)
-            return false;
-        return pat.matcher(email).matches();
-    }
-
     public ResponseEntity<Object> register(LoginDto userDto, BindingResult result){
-
-        if(result.hasErrors()){
-            var errorList = result.getAllErrors();
-            var errorMap = new HashMap<String, String>();
-            for(int i = 0;i < errorList.size();i++){
-                var error = (FieldError) errorList.get(i);
-                errorMap.put(error.getField(), error.getDefaultMessage());
-            }
-            return ResponseEntity.badRequest().body(errorMap);
-        }
 
         if(userDto.getUsername().contains(" ") || userDto.getPassword().contains(" ")){
             var errorMap = new HashMap<String, String>();
