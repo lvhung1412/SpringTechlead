@@ -35,13 +35,13 @@ public class Address {
     @Column(name = "location", columnDefinition = "POINT")
     private Point location;
 
-    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "address")
     private Set<Store> stores;
 
-    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "address")
     private Set<Staff> staffs;
 
-    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "address")
     private Set<Customer> customers;
 
     @Column(name = "last_update")

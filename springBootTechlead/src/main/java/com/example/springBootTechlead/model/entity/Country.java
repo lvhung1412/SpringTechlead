@@ -18,7 +18,7 @@ public class Country {
 
     private String country;
 
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "country")
     private Set<City> city;
 
     @Column(name = "last_update")

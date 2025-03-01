@@ -22,7 +22,7 @@ public class Actor {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany(mappedBy = "actor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "actor")
     private Set<FilmActor> filmActors;
 
     @Column(name = "last_update")

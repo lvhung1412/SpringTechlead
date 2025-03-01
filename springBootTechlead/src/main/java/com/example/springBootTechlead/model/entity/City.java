@@ -22,7 +22,7 @@ public class City {
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "city")
     private Set<Address> addresses;
 
     @Column(name = "last_update")

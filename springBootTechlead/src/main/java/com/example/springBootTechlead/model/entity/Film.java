@@ -49,12 +49,12 @@ public class Film {
     @JoinColumn(name = "original_language_id")
     private Language originalLanguage;
 
-    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "film")
     private Set<FilmActor> filmActors;
 
-    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "film")
     private Set<FilmCategory> filmCategories;
 
-    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "film")
     private Set<Inventory> inventories;
 }

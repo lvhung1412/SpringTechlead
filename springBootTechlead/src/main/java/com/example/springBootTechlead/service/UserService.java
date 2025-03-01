@@ -8,7 +8,6 @@ import com.example.springBootTechlead.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -35,15 +34,19 @@ public class UserService {
         if(result.hasErrors()){
             var errorList = result.getAllErrors();
             var errorMap = new HashMap<String, String>();
-            for(int i = 0;i < errorList.size();i++){
-                var error = (FieldError) errorList.get(i);
+            for (org.springframework.validation.ObjectError objectError : errorList) {
+                var error = (FieldError) objectError;
                 errorMap.put(error.getField(), error.getDefaultMessage());
             }
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMap);
         }
         User user = userRepository.findByUsername(loginDto.getUsername());
         if (user == null) {
-            return ResponseEntity.status(401).body("Wrong username or password");
+            return ResponseEntity.status(401).body("Wrong username");
+        }
+        BCryptPasswordEncoder bCryptEncoder = new BCryptPasswordEncoder();
+        if (!bCryptEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(401).body("Wrong password");
         }
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -62,8 +65,8 @@ public class UserService {
         if(result.hasErrors()){
             var errorList = result.getAllErrors();
             var errorMap = new HashMap<String, String>();
-            for(int i = 0;i < errorList.size();i++){
-                var error = (FieldError) errorList.get(i);
+            for (org.springframework.validation.ObjectError objectError : errorList) {
+                var error = (FieldError) objectError;
                 errorMap.put(error.getField(), error.getDefaultMessage());
             }
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMap);

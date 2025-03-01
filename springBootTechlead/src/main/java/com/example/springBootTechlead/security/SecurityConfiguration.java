@@ -38,8 +38,8 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST,Endpoints.PUBLIC_POST_ENDPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.GET,Endpoints.USER_GET_ENDPOINTS).hasRole(RoleType.USER.toString())
-                        .requestMatchers(HttpMethod.POST,Endpoints.USER_POST_ENDPOINTS).hasRole(RoleType.USER.toString())
+                        .requestMatchers(HttpMethod.GET,Endpoints.USER_GET_ENDPOINTS).hasRole("USER")
+                        .requestMatchers(HttpMethod.POST,Endpoints.USER_POST_ENDPOINTS).hasRole("USER")
                         .requestMatchers(HttpMethod.GET,Endpoints.ADMIN_GET_ENDPOINTS).hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT,Endpoints.ADMIN_PUT_ENDPOINTS).hasRole("ADMIN")
                         .anyRequest())

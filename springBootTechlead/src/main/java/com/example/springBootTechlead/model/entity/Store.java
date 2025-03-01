@@ -24,13 +24,13 @@ public class Store {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "store")
     private Set<Inventory> inventories;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "store")
     private Set<Staff> staff;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "store")
     private Set<Customer> customers;
 
     @Column(name = "last_update")

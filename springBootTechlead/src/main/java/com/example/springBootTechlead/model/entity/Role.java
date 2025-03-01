@@ -20,10 +20,10 @@ import java.util.Set;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
 
     @Convert(converter = RoleTypeConverter.class)
+    @Enumerated(EnumType.STRING)
     private RoleType name;
 
     @OneToMany(mappedBy = "role")

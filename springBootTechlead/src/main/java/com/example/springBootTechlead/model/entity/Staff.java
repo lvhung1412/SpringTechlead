@@ -42,13 +42,13 @@ public class Staff {
 
     private String password;
 
-    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "manager")
     private Set<Store> stores;
 
-    @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "staff")
     private Set<Payment> payments;
 
-    @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "staff")
     private Set<Rental> rentals;
 
     @Column(name = "last_update")

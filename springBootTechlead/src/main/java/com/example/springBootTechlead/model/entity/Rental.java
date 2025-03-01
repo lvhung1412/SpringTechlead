@@ -33,7 +33,7 @@ public class Rental {
     @JoinColumn(name = "staff_id")
     private Staff staff;
 
-    @OneToMany(mappedBy = "rental", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "rental")
     private Set<Payment> payments;
 
     @Column(name = "last_update")
