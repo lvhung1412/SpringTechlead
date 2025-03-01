@@ -30,16 +30,6 @@ public class UserService {
     }
 
     public ResponseEntity<Object> login(LoginDto loginDto, BindingResult result){
-        if(result.hasErrors()){
-            var errorList = result.getAllErrors();
-            var errorMap = new HashMap<String, String>();
-            for(int i = 0;i < errorList.size();i++){
-                var error = (FieldError) errorList.get(i);
-                errorMap.put(error.getField(), error.getDefaultMessage());
-            }
-            return ResponseEntity.badRequest().body(errorMap);
-        }
-
         try{
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
