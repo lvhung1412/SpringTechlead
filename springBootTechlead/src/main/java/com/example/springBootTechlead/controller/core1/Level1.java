@@ -4,7 +4,7 @@ import com.example.springBootTechlead.service.core1.Level1Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("core1/level1")
+@RequestMapping("/core1/level1")
 @RestController
 public class Level1 {
     @Autowired

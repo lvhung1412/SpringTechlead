@@ -5,9 +5,10 @@ import com.example.springBootTechlead.model.dto.LoginDto;
 import com.example.springBootTechlead.model.entity.User;
 import com.example.springBootTechlead.repository.RoleRepository;
 import com.example.springBootTechlead.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -30,32 +31,60 @@ public class UserService {
     }
 
     public ResponseEntity<Object> login(LoginDto loginDto, BindingResult result){
+//        if(result.hasErrors()){
+//            var errorList = result.getAllErrors();
+//            var errorMap = new HashMap<String, String>();
+//            for(int i = 0;i < errorList.size();i++){
+//                var error = (FieldError) errorList.get(i);
+//                errorMap.put(error.getField(), error.getDefaultMessage());
+//            }
+//            return ResponseEntity.badRequest().body(errorMap);
+//        }
         try{
+            User user = userRepository.findByUsername(loginDto.getUsername());
+//            if (user == null) {
+//                return ResponseEntity.status(401).body("Wrong username or password");
+//            }
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginDto.getUsername(),loginDto.getPassword()
                     )
             );
-
-            User user = userRepository.findByUsername(loginDto.getUsername());
-            if(user == null){
-                return ResponseEntity.badRequest().body("Username isn't exist!");
-            }
+            System.out.println("null");
             String jwtToken = jwtService.generateToken(user);
             var response = new HashMap<String, Object>();
             response.put("token", jwtToken);
             response.put("user", user.getUsername());
             return ResponseEntity.ok(response);
 
-        } catch (Exception e){
-            System.out.println("There is an exception : ");
-            e.printStackTrace();
+        }catch (BadCredentialsException e) {
+            return ResponseEntity.status(401).body("Wrong username or password!");
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(404).body("User not found!");
+        } catch (LockedException e) {
+            return ResponseEntity.status(423).body("User account is locked!");
+        } catch (DisabledException e) {
+            return ResponseEntity.status(403).body("User is disabled!");
+        } catch (AccountExpiredException e) {
+            return ResponseEntity.status(403).body("User account has expired!");
+        } catch (CredentialsExpiredException e) {
+            return ResponseEntity.status(403).body("User credentials have expired!");
         }
-
-        return ResponseEntity.badRequest().body("Wrong username or password!");
+//        catch (Exception e) {
+//            return ResponseEntity.status(500).body("Internal server error!");
+//        }
     }
 
     public ResponseEntity<Object> register(LoginDto userDto, BindingResult result){
+        if(result.hasErrors()){
+            var errorList = result.getAllErrors();
+            var errorMap = new HashMap<String, String>();
+            for(int i = 0;i < errorList.size();i++){
+                var error = (FieldError) errorList.get(i);
+                errorMap.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errorMap);
+        }
 
         if(userDto.getUsername().contains(" ") || userDto.getPassword().contains(" ")){
             var errorMap = new HashMap<String, String>();

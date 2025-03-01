@@ -36,7 +36,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET, Endpoints.PUBLIC_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET,Endpoints.PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.POST,Endpoints.PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET,Endpoints.USER_ENDPOINTS).hasRole("USER")
                         .requestMatchers(HttpMethod.POST,Endpoints.USER_ENDPOINTS).hasRole("USER")
