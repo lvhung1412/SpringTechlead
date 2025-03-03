@@ -18,37 +18,6 @@ target/
 *.iws
 *.iml
 *.ipr
-# File log
-*.log
-logs/
-log/
-*.out
-*.err
-# Cache và session
-/.gradle/
-/.mvn/
-/node_modules/
-# Cấu hình môi trường
-.env
-*.env
-*.properties
-application.yml
-application-*.yml
-# Maven
-.mvn/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-
-# Gradle
-.gradle
-gradle-app.setting
-gradle.properties
-gradle-wrapper.jar
-gradle/
-
 
 
 ### NetBeans ###
